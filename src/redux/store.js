@@ -1,10 +1,9 @@
+// redux/store.js
 import { configureStore } from '@reduxjs/toolkit';
 import workflowReducer from './workflowSlice';
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
     workflow: workflowReducer,
   },
 });
-
-export default store;

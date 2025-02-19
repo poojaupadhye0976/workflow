@@ -1,4 +1,4 @@
-// workflowSlice.js
+// redux/workflowSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -16,25 +16,15 @@ const workflowSlice = createSlice({
     addEdge: (state, action) => {
       state.edges.push(action.payload);
     },
-    updateNodeInput: (state, action) => {
-      const { nodeId, value } = action.payload;
-      const node = state.nodes.find((node) => node.id === nodeId);
-      if (node) {
-        node.data.input = value;
-      }
-    },
     updateNodePosition: (state, action) => {
       const { nodeId, position } = action.payload;
-      const node = state.nodes.find((node) => node.id === nodeId);
-      if (node) {
-        node.position = position;
-      }
+      state.nodes = state.nodes.map((node) =>
+        node.id === nodeId ? { ...node, position } : node
+      );
     },
     deleteNode: (state, action) => {
       const { nodeId } = action.payload;
-      // Remove the node.
       state.nodes = state.nodes.filter((node) => node.id !== nodeId);
-      // Also remove edges that are connected to the deleted node.
       state.edges = state.edges.filter(
         (edge) => edge.source !== nodeId && edge.target !== nodeId
       );
@@ -42,11 +32,5 @@ const workflowSlice = createSlice({
   },
 });
 
-export const {
-  addNode,
-  addEdge,
-  updateNodeInput,
-  updateNodePosition,
-  deleteNode,
-} = workflowSlice.actions;
+export const { addNode, addEdge, updateNodePosition, deleteNode } = workflowSlice.actions;
 export default workflowSlice.reducer;

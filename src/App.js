@@ -1,17 +1,18 @@
 // App.js
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
-import Navbar from './components/Navbar';
+import { store } from './redux/store';
+import Sidebar from './components/Sidebar';
 import WorkflowCanvas from './components/WorkflowCanvas';
-import store from './redux/store';
+import { Box } from '@mui/material';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <div>
-        <Navbar />
+      <Box sx={{ display: 'flex', height: '100vh' }}>
+        <Sidebar />
         <WorkflowCanvas />
-      </div>
+      </Box>
     </Provider>
   );
 };
