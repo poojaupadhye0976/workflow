@@ -1,10 +1,10 @@
-// components/Sidebar.js
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addNode } from '../redux/workflowSlice';
-import { Button, TextField, Box, Typography } from '@mui/material';
+import { Button, TextField, Box, Typography, MenuItem } from '@mui/material';
 
 const Sidebar = () => {
+  const [nodeType, setNodeType] = useState('Start Node');
   const [nodeName, setNodeName] = useState('');
   const [nodeColor, setNodeColor] = useState('#000000');
   const dispatch = useDispatch();
@@ -14,15 +14,15 @@ const Sidebar = () => {
 
     const newNode = {
       id: `${Date.now()}`,
-      type: 'default',
-      data: { label: nodeName },
+      type: 'customNode', // Custom node type used by React Flow
+      data: { header: nodeType, label: nodeName, backgroundColor: nodeColor },
       position: { x: Math.random() * 400, y: Math.random() * 400 },
-      style: { backgroundColor: nodeColor, color: '#fff', padding: 10 },
     };
 
     dispatch(addNode(newNode));
     setNodeName('');
     setNodeColor('#000000');
+    setNodeType('Start Node');
   };
 
   return (
@@ -30,6 +30,23 @@ const Sidebar = () => {
       <Typography variant="h6" gutterBottom>
         Add Node
       </Typography>
+      {/* Node Type Dropdown */}
+      <TextField
+        fullWidth
+        select
+        label="Node Type"
+        variant="outlined"
+        value={nodeType}
+        onChange={(e) => setNodeType(e.target.value)}
+        margin="normal"
+      >
+        <MenuItem value="Start Node">Start Node</MenuItem>
+        <MenuItem value="End Node">End Node</MenuItem>
+        <MenuItem value="Error Node">Error Node</MenuItem>
+        <MenuItem value="Text Node">Text Node</MenuItem>
+        <MenuItem value="Question Node">Question Node</MenuItem>
+      </TextField>
+      {/* Node Name Field */}
       <TextField
         fullWidth
         label="Node Name"
@@ -38,6 +55,7 @@ const Sidebar = () => {
         onChange={(e) => setNodeName(e.target.value)}
         margin="normal"
       />
+      {/* Node Color Picker */}
       <TextField
         fullWidth
         label="Node Color"
@@ -46,6 +64,7 @@ const Sidebar = () => {
         value={nodeColor}
         onChange={(e) => setNodeColor(e.target.value)}
         margin="normal"
+        InputLabelProps={{ shrink: true }}
       />
       <Button variant="contained" color="primary" fullWidth onClick={handleAddNode}>
         Save Node

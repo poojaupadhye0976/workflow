@@ -1,10 +1,15 @@
 import React from 'react';
+import { AppBar, Toolbar, Typography } from '@mui/material';
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
-      <h1>Pooja's Workflow Builder</h1>
-    </nav>
+    <AppBar position="static" sx={{ backgroundColor: '#333' }}>
+      <Toolbar>
+        <Typography variant="h6" component="div">
+          Pooja's Workflow Builder
+        </Typography>
+      </Toolbar>
+    </AppBar>
   );
 };
 
